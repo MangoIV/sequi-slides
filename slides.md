@@ -25,8 +25,6 @@ drawings:
 
 *Craig G. Nevill-Manning · Ian H. Witten*
 
-presentation by Magnus Viernickel
-
 ---
 
 # structure
@@ -64,8 +62,8 @@ layout: center
 
 --- 
 layout: figure
-figureCaption: inferred structure for the same sentences in the (a) German, (b) French 
-  and (c) English bible
+figureCaption: inferred structure for the same sentences in the (a) English, (b) French 
+  and (c) German bible
 figureUrl: inferred-structures-bible.png
 ---
 
