@@ -25,6 +25,14 @@ drawings:
 
 *Craig G. Nevill-Manning · Ian H. Witten*
 
+--- 
+layout: figure
+figureUrl: sequi-slides.png
+figureCaption: https://mangoiv.github.io/sequi-slides - follow my presentation (at home)
+---
+
+# follow the presentation
+
 ---
 
 # structure
