@@ -518,7 +518,7 @@ figureCaption: http://sequitur.info - JS-implementation by C. Nevill-Manning
 - linear in space 
   - split input; merge grammars 
   - $\mathcal O(\log n)$ memory 
-  - sacrifices digram uniqueness)
+  - sacrifices digram uniqueness
 - issues with hashtable 
   - resizing (to maintain amortized $\mathcal O(1)$ `lookup` and `insert`) is costly
 
