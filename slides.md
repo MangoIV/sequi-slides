@@ -325,7 +325,7 @@ A -> bc
 S -> aAdbc   { bc, db, aA, Ad }  -- update `ab`, `cd`;  update `S` rule
 A -> bc
 
-S -> aAdA    { bc, dA, aC, Ad }  -- update `db`; update `S` rule
+S -> aAdA    { bc, dA, aA, Ad }  -- update `db`; update `S` rule
 A -> bc
 ```
 --- 
