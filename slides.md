@@ -118,7 +118,7 @@ layout: center
 
 > the `sequitur` algorithm
 
---- 
+---
 
 ## algorithm - concept: digram uniqueness
 
@@ -196,7 +196,7 @@ C -> aAd     -- resubstitute `aA` for `B`
 
 </v-click>
 
---- 
+---
 
 ## algorithm - full example
 
@@ -258,7 +258,7 @@ layout: center
 <v-clicks>
 
 - *append* to `S`
-  - we need fast `snoc`
+  - we need fast `snoc`<sup>1</sup>
 - *use* a rule 
   - substitute a non-terminal by any digram (this *shortens* the rule)
 - *create* a rule
@@ -269,7 +269,9 @@ layout: center
   - delete LHS
 
 </v-clicks>
-
+<Footnotes separator>
+  <Footnote :number=1>like cons but to the end of the list</Footnote>
+</Footnotes>
 ---
 
 ## implementation - datastructures
@@ -279,24 +281,24 @@ layout: center
 ### grammar and digramindex
 
 ```
- grammar (linked list)     │ digramindex (hashtable)
-           ┌───────────────┼────────┐
-           │               │        │
-      ┌────┼─────────┐     │        │
-      │    │         │     │        │
-┌─┐   ▼   ┌▼┐  ┌─┐  ┌┴┐    │ ┌────┐ │
-│A├─►┌┬┬─►│B├─►│c├─►│d│  ┌─┼─┤{cd}│ │
-└─┘  └─┘  └┬┘  └▲┘  └─┘  │ │ ├────┤ │
-           │    │        │ │ │{Bc}├─┘
- ┌─────────┘    └────────┘ │ ├────┤
- │                         │ │{ab}│
- │    ┌─────────┐          │ └──┬─┘
- │    │         │          │    │
-┌▼┐   ▼   ┌─┐  ┌┴┐         │    │
-│B├─►┌┬┬─►│a├─►│b│         │    │
-└─┘  └─┘  └▲┘  └─┘         │    │
-           │               │    │
-           └───────────────┼────┘
+ grammar (linked list)     │  digramindex (hashtable)
+           ┌───────────────┼──────────────────┐
+           │               │                  │
+      ┌────┼─────────┐     │                  │
+      │    │         │     │                  │
+┌─┐   ▼   ┌▼┐  ┌─┐  ┌┴┐    │         ┌────┐   │
+│A├─►┌┬┬─►│B├─►│c├─►│d│  ┌─┼─────────┤{cd}│   │
+└─┘  └─┘  └┬┘  └▲┘  └─┘  │ │         ├────┤   │
+           │    │        │ │         │{Bc}├───┘
+ ┌─────────┘    └────────┘ │         ├────┤
+ │                         │         │{ab}│
+ │    ┌─────────┐          │         └──┬─┘
+ │    │         │          │            │
+┌▼┐   ▼   ┌─┐  ┌┴┐         │            │
+│B├─►┌┬┬─►│a├─►│b│         │            │
+└─┘  └─┘  └▲┘  └─┘         │            │
+           │               │            │
+           └───────────────┼────────────┘
                            │
 ```
 
@@ -310,7 +312,7 @@ layout: center
 -->
 
 
---- 
+---
 
 ## implementation - example
 
@@ -328,7 +330,7 @@ A -> bc
 S -> aAdA    { bc, dA, aA, Ad }  -- update `db`; update `S` rule
 A -> bc
 ```
---- 
+---
 
 ## implementation - complexity
 
@@ -353,9 +355,13 @@ digram replaced by a non-terminal:
 
 - `(1)` performed exactly $n$ times 
 - `(2)` performed upon link creation
-- `(3)`,`(4)`,`(5)` with savings $1$, $0$, $1$ respectively
+- `(3)`,`(4)`,`(5)` with savings $1$, $0$, $1$<sup>1</sup> respectively
 
 </v-clicks>
+
+<Footnotes separator>
+  <Footnote :number=1>(3) - ..ab + A -> ab becomes ..A + A -> ab; (4) - ..ab..ab becomes ..A..A + A -> ab; (5) - ..A + A -> ab becomes ..ab </Footnote>
+</Footnotes>
 
 <!-- 
 - amortized (not per symbol but per sequence) 
@@ -370,7 +376,7 @@ digram replaced by a non-terminal:
 - 5 removing a rule
 -->
 
---- 
+---
 
 ## implementation - complexity
 
@@ -385,26 +391,28 @@ digram replaced by a non-terminal:
 <v-clicks>
 
 - $a_1 - a_5$ actions `(1)`-`(5)` respectively
-- $n-o = a_3 - a_5$
-- $r = a_4 - a_5$
-- $r < o \equiv r - o < 0$ 
-- $a_5 = n-o-a_3 \lt n$
+- $n-o = a_3 + a_5$ <i style="opacity: 0.5; position: absolute; right: 5px"> - savings are the amount of times $a_3, a_5$ are performed</i>
+- $r = a_4 - a_5 \equiv a_4 = r + a_5$ <i style="opacity: 0.5; position: absolute; right: 5px"> - formed- minus deleted rules, $a_5$ bounded by 1.</i>
+- $r < o \equiv r - o < 0$ <i style="opacity: 0.5; position: absolute; right: 5px"> - less rules than symbols (per rule $\ge 2$ symbols)</i>
+- $a_5 = n-o-a_3 \lt n$ <i style="opacity: 0.5; position: absolute; right: 5px"> - see first rule</i>
 
 </v-clicks>
 
 <v-click>
 
-$$\sum_{i = 1}^5 a_i = 2n + (r-o) + a_5 + a_2 \lt 3n+a_2$$
+$$\begin{align} \sum_{i = 1}^5 a_i &= n + a_2 + (n - o) + (r + a_5)\\ &= n + a_2 + n + (r-o) + a_5\\ &\lt 3n + a_2 \end{align}$$
 
 </v-click>
 
- <!-- 
- - the size reduction of the grammar is equal to the amount of times that 3 and 5 are executed 
+<!--
+- the size reduction of the grammar is equal to the amount of times that 3 and 5 are executed 
  - the number of rules is the amount of times that a rule is created minus the amount of times a rule 
  - the number of rules must be smaller than the size of the grammar
    is deleted
- -  
- -->
+ - n - o = a3 + a5 reduction of the size in grammar, a3 and a5 are the actions that decrease size by 1
+ - r = a4 - a5, a4 forms rules, a5 deletes the
+ - result: (1) performed n times
+-->
 
 ---
 
@@ -416,8 +424,6 @@ $$\sum_{i = 1}^5 a_i = 2n + (r-o) + a_5 + a_2 \lt 3n+a_2$$
 - with occupancy $\lt 80\%$ lookups are $\mathcal O (1)$
 - hashtable size smaller than grammar (which itself is linearly bounded by the input)
 - $a_2$ can only be executed, when either of $a_1, a_3 - a_5$ are run (bounded by $\mathcal O(n)$)
-
-- $a_2$: check for duplicate digrams
 
 </v-clicks>
 
@@ -500,18 +506,21 @@ figureCaption: http://sequitur.info - JS-implementation by C. Nevill-Manning
 
 <v-clicks>
 
+- performance in compressing macromolecular sequences is better than `PPM`
+- generally (in most cases) performs better than other generic compression algorithms like `gzip`
+- compresses the bible (King James version) best
 - *linear in time* (cf. `Mk10`, $\mathcal O(n^2)$, Wolff, 1975)
 
 </v-clicks>
 
 
-<v-click>
+---
+
+## evaluation - comparison
 
 <br>
 
 *but*
-
-</v-click>
 
 <v-clicks>
 
@@ -520,15 +529,19 @@ figureCaption: http://sequitur.info - JS-implementation by C. Nevill-Manning
   - $\mathcal O(\log n)$ memory 
   - sacrifices digram uniqueness
 - issues with hashtable 
-  - resizing (to maintain amortized $\mathcal O(1)$ `lookup` and `insert`) is costly
+  - resizing (to maintain amortized<sup>1</sup> $\mathcal O(1)$ `lookup` and `insert`) is costly
 
 </v-clicks>
+
+<Footnotes separator>
+  <Footnote :number=1>look at how operations are "commonly" performed in sequence instead of at single operation</Footnote>
+</Footnotes>
 
 <!-- 
 - Wolffs algorithm forms sequitur rules if a digram is seen >10 times
 -->
 
---- 
+---
 
 ## evaluation - summary
 
