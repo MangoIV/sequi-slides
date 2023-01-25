@@ -490,6 +490,37 @@ figureCaption: http://sequitur.info - JS-implementation by C. Nevill-Manning
 
 ## evaluation - showcase 
 
+<!--
+In the fields of green and gold,
+The wind doth blow, the wind doth blow
+And in the fields of green and gold,
+The wind doth blow, the wind doth blow
+
+The leaves they rustle, the leaves they sway
+In the fields of green and gold,
+The wind doth blow, the wind doth blow
+
+And in the fields of green and gold,
+The wind doth blow, the wind doth blow
+The sun doth shine, the sun doth shine
+In the fields of green and gold,
+The wind doth blow, the wind doth blow
+
+And in the fields of green and gold,
+The wind doth blow, the wind doth blow
+The flowers they bloom, the flowers they grow
+In the fields of green and gold,
+The wind doth blow, the wind doth blow
+
+And in the fields of green and gold,
+The wind doth blow, the wind doth blow
+Forever and ever, forever and ever
+In the fields of green and gold,
+The wind doth blow, the wind doth blow
+
+-- chat gpt
+-->
+
 ---
 
 ## evaluation - comparison
